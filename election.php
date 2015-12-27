@@ -7,8 +7,6 @@
     echo "I cannot connect";
 	}
 	
-	$_GET['method'];
-	
 	if ($_GET['method'] == "get"){
 		
 		$user = $_GET['username'];
@@ -40,7 +38,7 @@
 		$name = $_GET["username"];
 		$vote = $_GET["vote"];
 
-		$query = "UPDATE students SET voted='{$vote}' WHERE username = {$name}";
+		$query = "UPDATE students SET voted='{$vote}' WHERE username ='{$name}'";
 
 		$results = mysqli_query($mysqli, $query);
     
@@ -57,5 +55,24 @@
 
 		}
 		}
+if ($_GET['method'] == "review"){
+		
+		$votd = $_GET['voted'];
+		
+		$query = "select count(id) as num_rows from students where voted='$votd' ";
+		
+		$results = mysqli_query($mysqli, $query);
+		
+		$count = 0;
+		
+		while($array = mysqli_fetch_array($results)){
+			
+			$newarray["result"] = $array["num_rows"];
+
+			}
+
+			echo json_encode($newarray, JSON_FORCE_OBJECT);
+		
+	}
 
 ?>
